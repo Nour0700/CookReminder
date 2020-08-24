@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.example.android.reminder.addFragment.AddViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primaryLightColor">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_text_field"
+            android:layout_width="match_parent"
+            android:layout_height="50sp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:hint="@string/add_the_new_cook_editText_hint"
+            android:text="@={viewModel.cookName}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.541"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.151" />
+
+        <Button
+            android:id="@+id/add_button"
+            android:layout_width="161dp"
+            android:layout_height="51dp"
+            android:layout_marginTop="40dp"
+            android:text="@string/add_button_text"
+            android:onClick="@{() -> viewModel.onAddButtonClicked()}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/add_text_field"
+            app:layout_constraintStart_toStartOf="@+id/add_text_field"
+            app:layout_constraintTop_toBottomOf="@+id/add_text_field"
+            app:layout_constraintVertical_bias="0.008" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

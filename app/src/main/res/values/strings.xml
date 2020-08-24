@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Cook Reminder</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="button_navigate">Navigate</string>
+    <string name="button_goback">Go Back</string>
+    <string name="add_button_text">Add</string>
+    <string name="add_the_new_cook_editText_hint">Add the new cook</string>
+    <string name="sucessfully_added_cook_message">Cook added successfully</string>
+    <string name="empty_field_message">Please enter some text</string>
+    <string name="app_description">This is a simple app made to help you figure out which meal to cook next. \n\n
+                                    You can add/delete meals and your existing meals are ordered by date. Every day the app will randomly suggest new meals for you. \n\n
+                                    This app is open source and you can visit the git repository for is from here.</string>
+    <string name="about_text">About</string>
+    <string name="no_data_text">There is not cook! \n Add some cooks</string>
+    <!--    this will fromat string data from the layout file when used-->
+<!--    <string name="quote_format">\"%s\"</string>-->
+</resources>
