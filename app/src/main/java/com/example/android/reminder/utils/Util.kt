@@ -1,7 +1,9 @@
-package com.example.android.reminder
+package com.example.android.reminder.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat
+
+
 
 @SuppressLint("SimpleDateFormat")
 fun convertLongToDateString(systemTime: Long): String {

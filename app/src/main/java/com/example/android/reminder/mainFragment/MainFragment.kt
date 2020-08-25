@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.reminder.R
+import com.example.android.reminder.addFragment.AddFragment
 import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentMainBinding
 
@@ -18,6 +19,8 @@ class MainFragment : Fragment() {
 
     lateinit var viewModel: MainViewModel
     lateinit var binding : FragmentMainBinding
+    lateinit var adapter: CookAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,18 +39,11 @@ class MainFragment : Fragment() {
         // notify this observer when the data changes and the fragment is not on screen.
         viewModel.shouldNavigateToAddFragment.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
             if (shouldNavigate) {
-                findNavController().navigate(
-                    MainFragmentDirections.actionMainFragmentToAddFragment()
-                )
-                // we call this because we want the code above get executed just once
-                // if any configuration this observer will get the recent data which want allow to
-                // execute the code
+                //findNavController().navigate(
+                //    MainFragmentDirections.actionMainFragmentToAddFragment()
+                //)
+                AddFragment().show(childFragmentManager, "")
                 viewModel.endNavigationToAddFragment()
-                //GlobalScope.launch {
-                //    withContext(Dispatchers.IO){
-                //        databaseDao.deleteAllData()
-                //    }
-                //}
             }
         })
 
@@ -79,13 +75,13 @@ class MainFragment : Fragment() {
             viewModel.deleteCook(it)
         }
 
-        val adapter = CookAdapter(updateCookLastCookDateListener, deleteItemListener)
+        adapter = CookAdapter(updateCookLastCookDateListener, deleteItemListener)
         binding.cookList.adapter = adapter
 
         viewModel.cooks.observe(viewLifecycleOwner, Observer {
             it?.let {
                 // this is used to tell the listAdapter which list to keep track off.
-                adapter.addHeaderAndSubmitList(it)
+                adapter.addHeaderAndSubmitList(it, viewModel.cookListOrder)
             }
         })
         return binding.root
@@ -96,8 +92,19 @@ class MainFragment : Fragment() {
         inflater.inflate(R.menu.overflow_menu, menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return NavigationUI.onNavDestinationSelected(item, findNavController())
-                ||super.onOptionsItemSelected(item)
+
+        return when(item.itemId){
+            R.id.asc_order_menu_item -> {
+                adapter.addHeaderAndSubmitList(viewModel.cooks.value, ASCENDING_ORDER)
+                super.onOptionsItemSelected(item)
+            }
+            R.id.desc_order_menu_item -> {
+                adapter.addHeaderAndSubmitList(viewModel.cooks.value, DESCING_ORDER)
+                super.onOptionsItemSelected(item)
+            }
+            else ->  return NavigationUI.onNavDestinationSelected(item, findNavController())
+                    ||super.onOptionsItemSelected(item)
+        }
     }
 }
 

@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
+        android:id="@+id/desc_order_menu_item"
+        android:title="@string/sorti_in_descending_order" />
+    <item
+        android:id="@+id/asc_order_menu_item"
+        android:title="@string/sort_in_ascending_order_text" />
+    <item
         android:id="@+id/aboutFragment"
         android:title="@string/about_text" />
 </menu>

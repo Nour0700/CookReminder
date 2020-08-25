@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -19,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 
 val TAG = "Nour"
 
-class AddFragment : Fragment() {
+class AddFragment : DialogFragment() {
 
     private lateinit var binding:FragmentAddBinding
     private lateinit var viewModel: AddViewModel
@@ -47,6 +48,7 @@ class AddFragment : Fragment() {
                 binding.addTextField.setText("")
                 Toast.makeText(application, getString(R.string.sucessfully_added_cook_message), Toast.LENGTH_SHORT).show()
                 viewModel.hideEnd()
+                dismiss()
             }
         })
 
@@ -60,6 +62,7 @@ class AddFragment : Fragment() {
                     Snackbar.LENGTH_SHORT // How long to display the message.
                 ).show()
                 viewModel.displayEmptyFieldMessageEnd()
+                dismiss()
             }
         })
 

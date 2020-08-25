@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.reminder.createRangeOfTen
+import com.example.android.reminder.utils.createRangeOfTen
 import com.example.android.reminder.database.Cook
 import com.example.android.reminder.databinding.CookItemBinding
 import com.example.android.reminder.databinding.HeaderBinding
@@ -59,16 +59,25 @@ class CookAdapter(
         }
     }
 
-    fun addHeaderAndSubmitList(list: List<Cook>?) {
+    fun addHeaderAndSubmitList(list: List<Cook>?, order: Int) {
         adapterScope.launch {
             val listOfLists = list?.groupBy {
                 createRangeOfTen(it.lastTimeCooked)
             }?.map { it.value }
             var endList: List<DataItem> = listOf()
             if(!listOfLists.isNullOrEmpty()){
-                for((index, itemList) in listOfLists.withIndex()){
-                    endList = endList + DataItem.HeaderDataItem(index) + itemList.map { DataItem.CookDataItem(it) }
+                val size = listOfLists.size
+                if(order == ASCENDING_ORDER){
+                    for((index, itemList) in listOfLists.withIndex()){
+                        endList = endList + DataItem.HeaderDataItem(size - index - 1) + itemList.reversed().map { DataItem.CookDataItem(it) }
+                    }
+                    
+                }else{
+                    for((index, itemList) in listOfLists.reversed().withIndex()){
+                        endList = endList + DataItem.HeaderDataItem(index) + itemList.reversed().map { DataItem.CookDataItem(it) }
+                    }
                 }
+
             }
             withContext(Dispatchers.Main) {
                 submitList(endList)
