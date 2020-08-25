@@ -12,8 +12,6 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.example.android.reminder.R
 import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentAddBinding

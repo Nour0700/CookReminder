@@ -10,9 +10,11 @@
     <string name="empty_field_message">Please enter some text</string>
     <string name="app_description">This is a simple app made to help you figure out which meal to cook next. \n\n
                                     You can add/delete meals and your existing meals are ordered by date. Every day the app will randomly suggest new meals for you. \n\n
-                                    This app is open source and you can visit the git repository for is from here.</string>
+        This app is open source and you can visit the git repository for is from <a href="https://github.com/Nour0700/CookReminder">here</a>.</string>
     <string name="about_text">About</string>
     <string name="no_data_text">There is not cook! \n Add some cooks</string>
+    <string name="recently_cooked_text">Recently cooked</string>
+    <string name="cooked_before_text">Cooked before 4 days</string>
     <!--    this will fromat string data from the layout file when used-->
 <!--    <string name="quote_format">\"%s\"</string>-->
 </resources>

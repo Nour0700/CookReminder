@@ -8,9 +8,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
-import androidx.recyclerview.widget.DiffUtil
 import com.example.android.reminder.R
-import com.example.android.reminder.database.Cook
 import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentMainBinding
 
@@ -72,18 +70,24 @@ class MainFragment : Fragment() {
         // Inflate the cook_item for this fragment
 
         //========================================= RecyclerView
-        val adapter = CookAdapter(databaseDao)
+
+        // here we implement the click listener that will ask view model what to do
+        val updateCookLastCookDateListener = UpdateCookLastCookDateListener {
+            viewModel.updateCook(it)
+        }
+        val deleteItemListener = DeleteItemListener{
+            viewModel.deleteCook(it)
+        }
+
+        val adapter = CookAdapter(updateCookLastCookDateListener, deleteItemListener)
         binding.cookList.adapter = adapter
 
         viewModel.cooks.observe(viewLifecycleOwner, Observer {
             it?.let {
                 // this is used to tell the listAdapter which list to keep track off.
-                adapter.submitList(it)
+                adapter.addHeaderAndSubmitList(it)
             }
         })
-
-
-
         return binding.root
     }
     //========================================= for menu navigation

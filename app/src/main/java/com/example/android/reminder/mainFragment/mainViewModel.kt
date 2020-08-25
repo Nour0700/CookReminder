@@ -2,7 +2,9 @@ package com.example.android.reminder.mainFragment
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.android.reminder.database.Cook
 import com.example.android.reminder.database.CookDatabaseDao
+import kotlinx.coroutines.*
 import java.util.*
 
 
@@ -20,6 +22,8 @@ class MainViewModelFactory(private val dataSource: CookDatabaseDao, private val 
 class MainViewModel(val databaseDao: CookDatabaseDao, application: Application): AndroidViewModel(application){
 
     val cooks = databaseDao.getAllCooks()
+    private var viewModelJob = Job()
+    private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
 
     // this value is updated each time the data changes
     val noDataTextVisible = Transformations.map(cooks){
@@ -54,7 +58,28 @@ class MainViewModel(val databaseDao: CookDatabaseDao, application: Application):
     }
 
     //=========================================
+
+    fun updateCook(cook:Cook){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                cook.lastTimeCooked = System.currentTimeMillis()
+                databaseDao.update(cook)
+            }
+        }
+    }
+
+    fun deleteCook(cook:Cook){
+        uiScope.launch {
+            withContext(Dispatchers.IO){
+                databaseDao.delete(cook)
+            }
+        }
+    }
+
+    //=========================================
+
     override fun onCleared() {
         super.onCleared()
+        viewModelJob.cancel()
     }
 }

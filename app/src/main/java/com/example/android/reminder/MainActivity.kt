@@ -16,6 +16,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        //========================================= Init stuff
         super.onCreate(savedInstanceState)
         val binding  = DataBindingUtil
             .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
@@ -37,10 +39,6 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
         }
-
-
-
-
     }
 
     //========================================= setup DrawerLayout and Up button

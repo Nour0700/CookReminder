@@ -15,7 +15,7 @@ interface CookDatabaseDao{
     fun delete(cook: Cook)
     // returning LiveData gives us a list that will always be up to date without implementing a refresh
     // mechanism
-    @Query("Select * From cook ORDER BY last_time_cooked ASC")
+    @Query("Select * From cook ORDER BY last_time_cooked DESC")
     fun getAllCooks(): LiveData<List<Cook>>
 
     @Query("Select * From cook Where last_time_cooked = :lastTimeCooked")
