@@ -3,7 +3,6 @@ package com.example.android.reminder.database
 import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import java.util.*
 
 @Dao
 interface CookDatabaseDao{
@@ -20,9 +19,6 @@ interface CookDatabaseDao{
 
     @Query("Select * From cook Where last_time_cooked = :lastTimeCooked")
     fun getCook(lastTimeCooked: Long): Cook
-
-    @Query("Delete From cook")
-    fun deleteAllData()
 }
 
 @Database(entities = [Cook::class], version = 1, exportSchema = false)

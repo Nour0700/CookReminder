@@ -2,6 +2,8 @@ package com.example.android.reminder.mainFragment
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.android.reminder.Network.FirebaseDatabase
+import com.example.android.reminder.Network.NetworkCook
 import com.example.android.reminder.database.Cook
 import com.example.android.reminder.database.CookDatabaseDao
 import kotlinx.coroutines.*

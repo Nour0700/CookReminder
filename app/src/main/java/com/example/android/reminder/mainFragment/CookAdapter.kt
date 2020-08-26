@@ -64,14 +64,13 @@ class CookAdapter(
             val listOfLists = list?.groupBy {
                 createRangeOfTen(it.lastTimeCooked)
             }?.map { it.value }
-            var endList: List<DataItem> = listOf()
+            var endList = listOf<DataItem>()
             if(!listOfLists.isNullOrEmpty()){
                 val size = listOfLists.size
                 if(order == ASCENDING_ORDER){
                     for((index, itemList) in listOfLists.withIndex()){
                         endList = endList + DataItem.HeaderDataItem(size - index - 1) + itemList.reversed().map { DataItem.CookDataItem(it) }
                     }
-                    
                 }else{
                     for((index, itemList) in listOfLists.reversed().withIndex()){
                         endList = endList + DataItem.HeaderDataItem(index) + itemList.reversed().map { DataItem.CookDataItem(it) }

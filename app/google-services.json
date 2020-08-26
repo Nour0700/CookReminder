@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "351005935475",
+    "firebase_url": "https://cookreminder.firebaseio.com",
+    "project_id": "cookreminder",
+    "storage_bucket": "cookreminder.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351005935475:android:d9febaf27edcb41698a706",
+        "android_client_info": {
+          "package_name": "com.example.android.reminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351005935475-g1kkp9b5fffbmfcmvstcmkoap706rpan.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6RCXYGLaE_2mxpA_6J8RjAF_iAtDCFfE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351005935475-g1kkp9b5fffbmfcmvstcmkoap706rpan.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

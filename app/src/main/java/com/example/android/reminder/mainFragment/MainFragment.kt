@@ -2,8 +2,8 @@ package com.example.android.reminder.mainFragment
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -12,13 +12,14 @@ import com.example.android.reminder.R
 import com.example.android.reminder.addFragment.AddFragment
 import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentMainBinding
+import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
     //========================================= Inits
 
     lateinit var viewModel: MainViewModel
-    lateinit var binding : FragmentMainBinding
+    lateinit var binding: FragmentMainBinding
     lateinit var adapter: CookAdapter
 
     override fun onCreateView(
@@ -37,21 +38,22 @@ class MainFragment : Fragment() {
 
         // passing viewLifecycleOwner to be aware of the liveCycle of the fragment and not
         // notify this observer when the data changes and the fragment is not on screen.
-        viewModel.shouldNavigateToAddFragment.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
-            if (shouldNavigate) {
-                //findNavController().navigate(
-                //    MainFragmentDirections.actionMainFragmentToAddFragment()
-                //)
-                AddFragment().show(childFragmentManager, "")
-                viewModel.endNavigationToAddFragment()
-            }
-        })
+        viewModel.shouldNavigateToAddFragment.observe(
+            viewLifecycleOwner,
+            Observer<Boolean> { shouldNavigate ->
+                if (shouldNavigate) {
+                    AddFragment().show(childFragmentManager, "")
+                    viewModel.endNavigationToAddFragment()
+                }
+            })
+
+        cook_list
 
         // to display the no data text
         viewModel.noDataTextVisible.observe(viewLifecycleOwner, Observer {
-            if (it){
+            if (it) {
                 binding.noDataText.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.noDataText.visibility = View.GONE
             }
         })
@@ -63,7 +65,6 @@ class MainFragment : Fragment() {
 
         // this call allow to update the layout from the viewModel using liveData.
         binding.setLifecycleOwner(this)
-        // Inflate the cook_item for this fragment
 
         //========================================= RecyclerView
 
@@ -71,7 +72,7 @@ class MainFragment : Fragment() {
         val updateCookLastCookDateListener = UpdateCookLastCookDateListener {
             viewModel.updateCook(it)
         }
-        val deleteItemListener = DeleteItemListener{
+        val deleteItemListener = DeleteItemListener {
             viewModel.deleteCook(it)
         }
 
@@ -86,14 +87,16 @@ class MainFragment : Fragment() {
         })
         return binding.root
     }
+
     //========================================= for menu navigation
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.overflow_menu, menu)
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        return when(item.itemId){
+        return when (item.itemId) {
             R.id.asc_order_menu_item -> {
                 adapter.addHeaderAndSubmitList(viewModel.cooks.value, ASCENDING_ORDER)
                 super.onOptionsItemSelected(item)
@@ -102,9 +105,11 @@ class MainFragment : Fragment() {
                 adapter.addHeaderAndSubmitList(viewModel.cooks.value, DESCING_ORDER)
                 super.onOptionsItemSelected(item)
             }
-            else ->  return NavigationUI.onNavDestinationSelected(item, findNavController())
-                    ||super.onOptionsItemSelected(item)
+            else -> return NavigationUI.onNavDestinationSelected(item, findNavController())
+                    || super.onOptionsItemSelected(item)
         }
     }
+
+
 }
 

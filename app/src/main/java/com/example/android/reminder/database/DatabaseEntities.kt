@@ -3,7 +3,6 @@ package com.example.android.reminder.database
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import java.util.*
 
 @Entity(tableName = "cook")
 data class Cook(

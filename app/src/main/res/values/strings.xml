@@ -18,6 +18,10 @@
     <string name="sort_in_ascending_order_text">Sort in ascending order</string>
     <string name="sorti_in_descending_order">Sort in descending order</string>
     <string name="add_new_cook_text">Please add new cook</string>
+    <string name="welcome">Welcome to Cook Reminder</string>
+    <string name="sign_in_method">To use our services please sign in with the preferred method</string>
+    <string name="google">Google</string>
+    <string name="email">Email</string>
     <!--    this will fromat string data from the layout file when used-->
-<!--    <string name="quote_format">\"%s\"</string>-->
+    <!--    <string name="quote_format">\"%s\"</string>-->
 </resources>
