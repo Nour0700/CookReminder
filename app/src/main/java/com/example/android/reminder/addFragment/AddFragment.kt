@@ -20,7 +20,7 @@ val TAG = "Nour"
 
 class AddFragment : DialogFragment() {
 
-    private lateinit var binding:FragmentAddBinding
+    private lateinit var binding: FragmentAddBinding
     private lateinit var viewModel: AddViewModel
     private lateinit var navController: NavController
 
@@ -43,14 +43,18 @@ class AddFragment : DialogFragment() {
                 getSystemService(application, InputMethodManager::class.java)
                     ?.hideSoftInputFromWindow(binding.addButton.windowToken, 0)
                 binding.addTextField.setText("")
-                Toast.makeText(application, getString(R.string.sucessfully_added_cook_message), Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    application,
+                    getString(R.string.sucessfully_added_cook_message),
+                    Toast.LENGTH_SHORT
+                ).show()
                 viewModel.hideEnd()
                 dismiss()
             }
         })
 
         viewModel.displayEmptyFieldMessage.observe(viewLifecycleOwner, Observer {
-            if(it){
+            if (it) {
                 getSystemService(application, InputMethodManager::class.java)
                     ?.hideSoftInputFromWindow(binding.addButton.windowToken, 0)
                 Snackbar.make(
@@ -63,7 +67,7 @@ class AddFragment : DialogFragment() {
             }
         })
 
-        
+
         binding.lifecycleOwner = this
         // Inflate the layout for this fragment
         return binding.root
