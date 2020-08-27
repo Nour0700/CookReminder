@@ -28,7 +28,7 @@ data class Cook(
     }
 }
 
-class FirebaseDatabase(){
+class FirebaseDatabase{
     companion object{
 
         private lateinit var userId: String
@@ -38,6 +38,10 @@ class FirebaseDatabase(){
         //=========================================
 
         private val dbCooks = Firebase.database.getReference("users/$userId/cooks")
+
+        fun getInstance(): DatabaseReference{
+            return dbCooks
+        }
 
         private val _result = MutableLiveData<Exception?>()
         val addNewCookResult: LiveData<Exception?>
