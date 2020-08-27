@@ -10,7 +10,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.reminder.R
 import com.example.android.reminder.addFragment.AddFragment
-import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentMainBinding
 import kotlinx.android.synthetic.main.fragment_main.*
 
@@ -29,8 +28,7 @@ class MainFragment : Fragment() {
     ): View? {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_main, container, false)
         val application = requireNotNull(this.activity).application
-        val databaseDao = CookDatabase.getInstance(application).cookDatabaseDao
-        val viewModelFactory = MainViewModelFactory(databaseDao, application)
+        val viewModelFactory = MainViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         binding.viewModel = viewModel
 

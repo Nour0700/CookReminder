@@ -1,7 +1,6 @@
 package com.example.android.reminder.addFragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.android.reminder.R
-import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentAddBinding
 import com.google.android.material.snackbar.Snackbar
 
@@ -34,8 +32,7 @@ class AddFragment : DialogFragment() {
         //========================================= Init
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_add, container, false)
         val application = requireNotNull(this.activity).application
-        val databaseDao = CookDatabase.getInstance(application).cookDatabaseDao
-        val viewModelFactory = AddViewModelFactory(databaseDao, application)
+        val viewModelFactory = AddViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddViewModel::class.java)
         binding.viewModel = viewModel
 

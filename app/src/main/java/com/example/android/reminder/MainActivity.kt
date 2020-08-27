@@ -10,13 +10,14 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.reminder.databinding.ActivityMainBinding
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var drawerLayout: DrawerLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         //========================================= Init stuff
         super.onCreate(savedInstanceState)
         val binding  = DataBindingUtil
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity() {
                 drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
             }
         }
+
+        Firebase.database.setPersistenceEnabled(true)
     }
 
     //========================================= setup DrawerLayout and Up button

@@ -7,14 +7,14 @@ import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
 import java.lang.Exception
 
-data class NetworkCook(
+data class Cook(
     @get:Exclude
     var id: String? = null, // this want be stored in the object but will be the key of the object.
     val name: String? = null,
-    val lastTimeCooked: Long = System.currentTimeMillis(),
+    var lastTimeCooked: Long = System.currentTimeMillis(),
 ){
     override fun equals(other: Any?): Boolean {
-        return if(other is NetworkCook){
+        return if(other is Cook){
             this.id == other.id
         }else {
             false
@@ -43,15 +43,15 @@ class FirebaseDatabase(){
         val addNewCookResult: LiveData<Exception?>
             get() = _result
         
-        private val _allNetworkCooks = MutableLiveData<MutableList<NetworkCook>>()
-        val allNetworkCooks: LiveData<MutableList<NetworkCook>>
+        private val _allNetworkCooks = MutableLiveData<MutableList<Cook>>()
+        val allCooks: LiveData<MutableList<Cook>>
             get() = _allNetworkCooks
 
         //=========================================
 
-        fun addNewCook(networkCook: NetworkCook){
-            networkCook.id = dbCooks.push().key
-            dbCooks.child(networkCook.id!!).setValue(networkCook)
+        fun addNewCook(cook: Cook){
+            cook.id = dbCooks.push().key
+            dbCooks.child(cook.id!!).setValue(cook)
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         _result.value = null
@@ -63,8 +63,8 @@ class FirebaseDatabase(){
 
         //=========================================
 
-        fun updateNetworkCook(networkCook: NetworkCook){
-            dbCooks.child(networkCook.id!!).setValue(networkCook)
+        fun updateCook(cook: Cook){
+            dbCooks.child(cook.id!!).setValue(cook)
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         _result.value = null
@@ -76,8 +76,8 @@ class FirebaseDatabase(){
 
         //=========================================
 
-        fun deleteNetworkCook(networkCook: NetworkCook){
-            dbCooks.child(networkCook.id!!).setValue(null)
+        fun deleteCook(cook: Cook){
+            dbCooks.child(cook.id!!).setValue(null)
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         _result.value = null
@@ -85,27 +85,6 @@ class FirebaseDatabase(){
                         _result.value = it.exception
                     }
                 }
-        }
-
-        //=========================================
-
-        fun getAllNetworkCooks(){
-            dbCooks.addListenerForSingleValueEvent(object : ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if(snapshot.exists()){
-                        val netWorkCooks = mutableListOf<NetworkCook>()
-                        for(item in snapshot.children){
-                            val networkCook = item.getValue(NetworkCook::class.java)
-                            networkCook?.id = item.key
-                            networkCook?.let { netWorkCooks.add(it) }
-                        }
-                        _allNetworkCooks.value = netWorkCooks
-                    }
-                }
-                override fun onCancelled(error: DatabaseError) {
-                }
-
-            })
         }
 
         //=========================================
@@ -113,7 +92,7 @@ class FirebaseDatabase(){
         private val childEventListenerAllData = object : ChildEventListener{
             //=========================================
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val networkCook = snapshot.getValue(NetworkCook::class.java)
+                val networkCook = snapshot.getValue(Cook::class.java)
                 networkCook?.id = snapshot.key
                 networkCook?.let {
                     val allNetworkCooks = _allNetworkCooks.value
@@ -128,7 +107,7 @@ class FirebaseDatabase(){
             }
             //=========================================
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val networkCook = snapshot.getValue(NetworkCook::class.java)
+                val networkCook = snapshot.getValue(Cook::class.java)
                 networkCook?.id = snapshot.key
                 networkCook?.let {
                     val allNetworkCooks = _allNetworkCooks.value
@@ -141,7 +120,7 @@ class FirebaseDatabase(){
             }
             //=========================================
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                val networkCook = snapshot.getValue(NetworkCook::class.java)
+                val networkCook = snapshot.getValue(Cook::class.java)
                 networkCook?.id = snapshot.key
                 networkCook?.let {
                     val allNetworkCooks = _allNetworkCooks.value

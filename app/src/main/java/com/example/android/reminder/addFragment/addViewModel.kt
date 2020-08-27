@@ -1,27 +1,24 @@
 package com.example.android.reminder.addFragment
 
 import android.app.Application
-import android.util.Log
-import android.widget.Toast
 import androidx.lifecycle.*
-import com.example.android.reminder.database.Cook
-import com.example.android.reminder.database.CookDatabaseDao
+import com.example.android.reminder.Network.Cook
+import com.example.android.reminder.Network.FirebaseDatabase
 import kotlinx.coroutines.*
 
 class AddViewModelFactory(
-    private val dataSource: CookDatabaseDao,
     private val application: Application
 ) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(AddViewModel::class.java)) {
-            return AddViewModel(dataSource, application) as T
+            return AddViewModel(application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
-class AddViewModel(private val databaseDao: CookDatabaseDao, application: Application): AndroidViewModel(application){
+class AddViewModel(application: Application): AndroidViewModel(application){
 
     //========================================= Init stuff
 
@@ -80,7 +77,7 @@ class AddViewModel(private val databaseDao: CookDatabaseDao, application: Applic
 
     private suspend fun insert(cook: Cook) {
         withContext(Dispatchers.IO){
-            databaseDao.insert(cook)
+            FirebaseDatabase.addNewCook(cook)
         }
     }
 

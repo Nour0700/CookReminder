@@ -2,31 +2,30 @@ package com.example.android.reminder.mainFragment
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.android.reminder.Network.Cook
 import com.example.android.reminder.Network.FirebaseDatabase
-import com.example.android.reminder.Network.NetworkCook
-import com.example.android.reminder.database.Cook
-import com.example.android.reminder.database.CookDatabaseDao
+
 import kotlinx.coroutines.*
 
 
 val DESCING_ORDER = 1
 val ASCENDING_ORDER = 2
 
-class MainViewModelFactory(private val dataSource: CookDatabaseDao, private val application: Application) : ViewModelProvider.Factory {
+class MainViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(dataSource, application) as T
+            return MainViewModel(application) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")
     }
 }
 
 
-class MainViewModel(val databaseDao: CookDatabaseDao, application: Application): AndroidViewModel(application){
+class MainViewModel(application: Application): AndroidViewModel(application){
 
 
-    val cooks =databaseDao.getAllCooks()
+    val cooks = FirebaseDatabase.allCooks
 
 
 
@@ -56,6 +55,7 @@ class MainViewModel(val databaseDao: CookDatabaseDao, application: Application):
     //=========================================
 
     init{
+        FirebaseDatabase.getRealtimeUpdate()
         _shouldNavigateToAddFragment.value =false
     }
 
@@ -65,7 +65,7 @@ class MainViewModel(val databaseDao: CookDatabaseDao, application: Application):
         uiScope.launch {
             withContext(Dispatchers.IO){
                 cook.lastTimeCooked = System.currentTimeMillis()
-                databaseDao.update(cook)
+                FirebaseDatabase.updateCook(cook)
             }
         }
     }
@@ -73,7 +73,7 @@ class MainViewModel(val databaseDao: CookDatabaseDao, application: Application):
     fun deleteCook(cook:Cook){
         uiScope.launch {
             withContext(Dispatchers.IO){
-                databaseDao.delete(cook)
+                FirebaseDatabase.deleteCook(cook)
             }
         }
     }
@@ -83,5 +83,6 @@ class MainViewModel(val databaseDao: CookDatabaseDao, application: Application):
     override fun onCleared() {
         super.onCleared()
         viewModelJob.cancel()
+        FirebaseDatabase.clearListeners()
     }
 }

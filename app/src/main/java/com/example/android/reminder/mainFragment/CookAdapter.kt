@@ -5,8 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.android.reminder.Network.Cook
 import com.example.android.reminder.utils.createRangeOfTen
-import com.example.android.reminder.database.Cook
 import com.example.android.reminder.databinding.CookItemBinding
 import com.example.android.reminder.databinding.HeaderBinding
 import kotlinx.coroutines.CoroutineScope
@@ -158,14 +158,14 @@ class UpdateCookLastCookDateListener(val clickListener: (cook: Cook) -> Unit) {
 
 // classes outside this file can't implement this class.
 sealed class DataItem() {
-    abstract val id: Int
+    abstract val id: String?
 
     data class CookDataItem(val cook: Cook) : DataItem() {
-        override val id = cook.id
+        override val id: String? = cook.id
     }
 
     // this object could implement the sealed class
     class HeaderDataItem(val dayNumber: Int) : DataItem() {
-        override val id = Int.MIN_VALUE
+        override val id = ""
     }
 }

@@ -3,9 +3,10 @@ package com.example.android.reminder.utils
 import android.util.Log
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
+import com.example.android.reminder.Network.Cook
 import com.example.android.reminder.R
-import com.example.android.reminder.addFragment.TAG
-import com.example.android.reminder.database.Cook
+
+
 
 @BindingAdapter("lastDateCookedFormatted")
 fun TextView.lastDateCookedFormatted(cook: Cook?){
