@@ -1,18 +1,16 @@
 package com.example.android.reminder.mainFragment
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.android.reminder.network.Cook
-import com.example.android.reminder.utils.createRangeOfTen
+import com.example.android.reminder.addFragment.TAG
 import com.example.android.reminder.databinding.CookItemBinding
 import com.example.android.reminder.databinding.HeaderBinding
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import com.example.android.reminder.network.Cook
+import com.example.android.reminder.utils.createRangeOfTen
 
 private val ITEM_VIEW_TYPE_HEADER = 0
 private val ITEM_VIEW_TYPE_ITEM = 1
@@ -25,7 +23,6 @@ class CookAdapter(
 
     //========================================= init stuff
     // The default dispatcher that is used when coroutines are launched in GlobalScope
-    private val adapterScope = CoroutineScope(Dispatchers.Default)
 
     //========================================= Overriding stuff
 
@@ -60,30 +57,28 @@ class CookAdapter(
     }
 
     fun addHeaderAndSubmitList(list: List<Cook>?, order: Int) {
-        adapterScope.launch {
-            val listOfLists = list?.groupBy {
-                createRangeOfTen(it.lastTimeCooked)
-            }?.map { it.value }
-            var endList = listOf<DataItem>()
-            if(!listOfLists.isNullOrEmpty()){
-                val size = listOfLists.size
-                if(order == ASCENDING_ORDER){
-                    for((index, itemList) in listOfLists.withIndex()){
-                        endList = endList + DataItem.HeaderDataItem(size - index - 1) + itemList.reversed().map { DataItem.CookDataItem(it) }
-                    }
-                }else{
-                    for((index, itemList) in listOfLists.reversed().withIndex()){
-                        endList = endList + DataItem.HeaderDataItem(index) + itemList.reversed().map { DataItem.CookDataItem(it) }
-                    }
+        list?.sortedBy { it.lastTimeCooked }
+        val listOfLists = list?.groupBy {
+            createRangeOfTen(it.lastTimeCooked)
+        }?.map { it.value }
+        var endList = listOf<DataItem>()
+        if (!listOfLists.isNullOrEmpty()) {
+            val size = listOfLists.size
+            if (order == ASCENDING_ORDER) {
+                for ((index, itemList) in listOfLists.withIndex()) {
+                    endList =
+                        endList + DataItem.HeaderDataItem(size - index - 1) + itemList.reversed()
+                            .map { DataItem.CookDataItem(it) }
                 }
-
-            }
-            withContext(Dispatchers.Main) {
-                submitList(endList)
+            } else {
+                for ((index, itemList) in listOfLists.reversed().withIndex()) {
+                    endList = endList + DataItem.HeaderDataItem(index) + itemList.reversed()
+                        .map { DataItem.CookDataItem(it) }
+                }
             }
         }
+        submitList(endList)
     }
-
     //========================================= View Holders
 
     class HeaderViewHolder private constructor(val binding: HeaderBinding) :
@@ -140,6 +135,7 @@ class CookDiffCallback : DiffUtil.ItemCallback<DataItem>() {
     }
 
     override fun areContentsTheSame(oldItem: DataItem, newItem: DataItem): Boolean {
+        Log.i(TAG, "areContentsTheSame: ${oldItem == newItem} $oldItem $newItem")
         return oldItem == newItem
     }
 }

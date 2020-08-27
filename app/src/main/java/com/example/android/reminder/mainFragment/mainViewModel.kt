@@ -26,7 +26,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
 
 
     val cooks = FirebaseDatabase.allCooks
-
+    val result = FirebaseDatabase.result
 
 
     private var viewModelJob = Job()

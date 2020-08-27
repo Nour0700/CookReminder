@@ -1,7 +1,9 @@
 package com.example.android.reminder.network
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.android.reminder.addFragment.TAG
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -12,21 +14,7 @@ data class Cook(
     var id: String? = null, // this want be stored in the object but will be the key of the object.
     val name: String? = null,
     var lastTimeCooked: Long = System.currentTimeMillis(),
-){
-    override fun equals(other: Any?): Boolean {
-        return if(other is Cook){
-            this.id == other.id
-        }else {
-            false
-        }
-    }
-    override fun hashCode(): Int {
-        var result = id?.hashCode() ?: 0
-        result = 31 * result + (name?.hashCode() ?: 0)
-        result = 31 * result + lastTimeCooked.hashCode()
-        return result
-    }
-}
+)
 
 class FirebaseDatabase{
     companion object{
@@ -44,12 +32,12 @@ class FirebaseDatabase{
         }
 
         private val _result = MutableLiveData<Exception?>()
-        val addNewCookResult: LiveData<Exception?>
+        val result: LiveData<Exception?>
             get() = _result
         
-        private val _allNetworkCooks = MutableLiveData<MutableList<Cook>>()
+        private val _allCooks = MutableLiveData<MutableList<Cook>>()
         val allCooks: LiveData<MutableList<Cook>>
-            get() = _allNetworkCooks
+            get() = _allCooks
 
         //=========================================
 
@@ -96,40 +84,41 @@ class FirebaseDatabase{
         private val childEventListenerAllData = object : ChildEventListener{
             //=========================================
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
-                val networkCook = snapshot.getValue(Cook::class.java)
-                networkCook?.id = snapshot.key
-                networkCook?.let {
-                    val allNetworkCooks = _allNetworkCooks.value
-                    if(allNetworkCooks != null){
-                        allNetworkCooks.add(networkCook)
-                        _allNetworkCooks.value = allNetworkCooks
+                val cook = snapshot.getValue(Cook::class.java)
+                cook?.id = snapshot.key
+                cook?.let {
+                    val allCooks = _allCooks.value
+                    if(allCooks != null){
+                        allCooks.add(cook)
+                        _allCooks.value = allCooks
                     }else{
-                        val newAllNetworkCooks = mutableListOf(networkCook)
-                        _allNetworkCooks.value = newAllNetworkCooks
+                        val newAllNetworkCooks = mutableListOf(cook)
+                        _allCooks.value = newAllNetworkCooks
                     }
                 }
             }
             //=========================================
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
-                val networkCook = snapshot.getValue(Cook::class.java)
-                networkCook?.id = snapshot.key
-                networkCook?.let {
-                    val allNetworkCooks = _allNetworkCooks.value
-                    if(allNetworkCooks != null){
-                        val index = allNetworkCooks.indexOf(networkCook)
-                        allNetworkCooks[index] = networkCook
-                        _allNetworkCooks.value = allNetworkCooks
+                val cook = snapshot.getValue(Cook::class.java)
+                cook?.id = snapshot.key
+                cook?.let {
+                    val allCooks = _allCooks.value
+                    if(allCooks != null){
+                        val cookToBeChanged = allCooks.firstOrNull { it.id == cook.id }
+                        val index = allCooks.indexOf(cookToBeChanged)
+                        allCooks[index] = cook
+                        _allCooks.value = allCooks
                     }
                 }
             }
             //=========================================
             override fun onChildRemoved(snapshot: DataSnapshot) {
-                val networkCook = snapshot.getValue(Cook::class.java)
-                networkCook?.id = snapshot.key
-                networkCook?.let {
-                    val allNetworkCooks = _allNetworkCooks.value
-                    allNetworkCooks?.remove(networkCook)
-                    _allNetworkCooks.value = allNetworkCooks
+                val cook = snapshot.getValue(Cook::class.java)
+                cook?.id = snapshot.key
+                cook?.let {
+                    val allCooks = _allCooks.value
+                    allCooks?.remove(cook)
+                    _allCooks.value = allCooks
                 }
             }
             //=========================================

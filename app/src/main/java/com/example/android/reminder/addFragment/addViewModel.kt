@@ -26,6 +26,8 @@ class AddViewModel(application: Application): AndroidViewModel(application){
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     var cookName = MutableLiveData<String>()
 
+    val result = FirebaseDatabase.result
+
 
     //========================================= event control stuff
 

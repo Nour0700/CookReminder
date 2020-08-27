@@ -67,6 +67,11 @@ class AddFragment : DialogFragment() {
             }
         })
 
+        viewModel.result.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(requireContext(), "Unable to do changes", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         binding.lifecycleOwner = this
         // Inflate the layout for this fragment

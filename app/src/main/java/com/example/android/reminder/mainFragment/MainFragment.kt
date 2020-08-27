@@ -1,7 +1,9 @@
 package com.example.android.reminder.mainFragment
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -10,8 +12,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.reminder.R
 import com.example.android.reminder.addFragment.AddFragment
+import com.example.android.reminder.addFragment.TAG
 import com.example.android.reminder.databinding.FragmentMainBinding
-import kotlinx.android.synthetic.main.fragment_main.*
 
 class MainFragment : Fragment() {
 
@@ -32,20 +34,26 @@ class MainFragment : Fragment() {
         viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         binding.viewModel = viewModel
 
-        //========================================= Observers
+        //for menu navigation
+        setHasOptionsMenu(true)
 
+        // this call allow to update the layout from the viewModel using liveData.
+        binding.setLifecycleOwner(this)
+        return binding.root
+
+    }
+
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         // passing viewLifecycleOwner to be aware of the liveCycle of the fragment and not
         // notify this observer when the data changes and the fragment is not on screen.
-        viewModel.shouldNavigateToAddFragment.observe(
-            viewLifecycleOwner,
-            Observer<Boolean> { shouldNavigate ->
-                if (shouldNavigate) {
-                    AddFragment().show(childFragmentManager, "")
-                    viewModel.endNavigationToAddFragment()
-                }
-            })
-
-        cook_list
+        viewModel.shouldNavigateToAddFragment.observe(viewLifecycleOwner, Observer{ shouldNavigate ->
+            if (shouldNavigate) {
+                AddFragment().show(childFragmentManager, "")
+                viewModel.endNavigationToAddFragment()
+            }
+        })
 
         // to display the no data text
         viewModel.noDataTextVisible.observe(viewLifecycleOwner, Observer {
@@ -56,13 +64,12 @@ class MainFragment : Fragment() {
             }
         })
 
-        //=========================================
 
-        //for menu navigation
-        setHasOptionsMenu(true)
-
-        // this call allow to update the layout from the viewModel using liveData.
-        binding.setLifecycleOwner(this)
+        viewModel.result.observe(viewLifecycleOwner, Observer {
+            if (it != null) {
+                Toast.makeText(requireContext(), "Unable to do changes", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         //========================================= RecyclerView
 
@@ -83,7 +90,7 @@ class MainFragment : Fragment() {
                 adapter.addHeaderAndSubmitList(it, viewModel.cookListOrder)
             }
         })
-        return binding.root
+
     }
 
     //========================================= for menu navigation
