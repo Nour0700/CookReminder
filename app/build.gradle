@@ -66,6 +66,8 @@ dependencies {
     // Material Design used for: 1. drawer
     implementation "com.google.android.material:material:1.2.0"
 
+    // firebase stuff
     implementation "com.google.firebase:firebase-database-ktx:19.3.1"
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
 
 }

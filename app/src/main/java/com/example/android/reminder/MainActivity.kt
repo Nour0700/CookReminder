@@ -21,7 +21,7 @@ class MainActivity : AppCompatActivity() {
         //========================================= Init stuff
         super.onCreate(savedInstanceState)
         val binding  = DataBindingUtil
-            .setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+            .setContentView<ActivityMainBinding>(this, R.layout.auth_method_picker_layout)
 
 
         //========================================= setup DrawerLayout
