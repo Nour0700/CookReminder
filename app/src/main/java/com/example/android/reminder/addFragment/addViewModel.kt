@@ -2,8 +2,8 @@ package com.example.android.reminder.addFragment
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.android.reminder.Network.Cook
-import com.example.android.reminder.Network.FirebaseDatabase
+import com.example.android.reminder.network.Cook
+import com.example.android.reminder.network.FirebaseDatabase
 import kotlinx.coroutines.*
 
 class AddViewModelFactory(

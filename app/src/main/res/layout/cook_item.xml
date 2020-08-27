@@ -7,7 +7,7 @@
 
         <variable
             name="cook"
-            type="com.example.android.reminder.Network.Cook" />
+            type="com.example.android.reminder.network.Cook" />
 
         <variable
             name="delete_item_listener"

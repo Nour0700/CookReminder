@@ -1,4 +1,4 @@
-package com.example.android.reminder.Network
+package com.example.android.reminder.network
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -37,7 +37,7 @@ class FirebaseDatabase{
         }
         //=========================================
 
-        private val dbCooks = Firebase.database.getReference("users/$userId/cooks")
+        private val dbCooks = Firebase.database.getReference("cooks")
 
         fun getInstance(): DatabaseReference{
             return dbCooks
