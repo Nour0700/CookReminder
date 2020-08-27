@@ -26,7 +26,10 @@ class MainViewModelFactory(private val dataSource: CookDatabaseDao, private val 
 class MainViewModel(val databaseDao: CookDatabaseDao, application: Application): AndroidViewModel(application){
 
 
-    val cooks = databaseDao.getAllCooks()
+    val cooks =databaseDao.getAllCooks()
+
+
+
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     var cookListOrder: Int = ASCENDING_ORDER
