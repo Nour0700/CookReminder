@@ -9,7 +9,7 @@
 
         <variable
             name="viewModel"
-            type="com.example.android.reminder.mainFragment.MainViewModel" />
+            type="com.example.android.reminder.mainActivity.mainFragment.MainViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -18,6 +18,8 @@
         android:background="#F1E6E6">
 
 
+        <!--android:text="@{@string/quote_format(viewModel.data)}"-->
+
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/button"
             android:layout_width="wrap_content"
@@ -25,15 +27,14 @@
             android:clickable="true"
             android:focusable="true"
             android:onClick="@{() -> viewModel.navigateToAddFragment()}"
-            android:text="Add"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/cook_list"
-            app:layout_constraintHorizontal_bias="0.913"
-            app:layout_constraintStart_toStartOf="@+id/cook_list"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.926"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.971"
+            app:layout_constraintVertical_bias="0.97"
+            android:background="@color/primaryDarkColor"
             app:srcCompat="@android:drawable/ic_input_add" />
-        <!--android:text="@{@string/quote_format(viewModel.data)}"-->
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/cook_list"

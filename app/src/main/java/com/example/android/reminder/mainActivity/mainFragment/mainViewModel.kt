@@ -1,14 +1,10 @@
-package com.example.android.reminder.mainFragment
+package com.example.android.reminder.mainActivity.mainFragment
 
-import android.app.Application
-import android.util.Log
 import androidx.lifecycle.*
-import com.example.android.reminder.network.Cook
-import com.example.android.reminder.network.FirebaseDatabase
-import com.example.android.reminder.network.FirebaseUserLiveData
+import com.example.android.reminder.mainActivity.network.Cook
+import com.example.android.reminder.mainActivity.network.FirebaseDatabase
+import com.example.android.reminder.mainActivity.network.FirebaseUserLiveData
 import androidx.lifecycle.map
-import com.example.android.reminder.addFragment.TAG
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
 
 
@@ -21,7 +17,7 @@ class MainViewModel: ViewModel(){
 
     val cooks = FirebaseDatabase.allCooks
     val result = FirebaseDatabase.result
-    lateinit var userId : String
+
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
@@ -47,24 +43,25 @@ class MainViewModel: ViewModel(){
     //=========================================
 
     init{
+        FirebaseDatabase.getRealtimeUpdate()
         _shouldNavigateToAddFragment.value =false
     }
 
     //=========================================
 
-    fun updateCook(cook:Cook){
+    fun updateCook(cook: Cook){
         uiScope.launch {
             withContext(Dispatchers.IO){
                 cook.lastTimeCooked = System.currentTimeMillis()
-                FirebaseDatabase.updateCook(cook, userId)
+                FirebaseDatabase.updateCook(cook)
             }
         }
     }
 
-    fun deleteCook(cook:Cook){
+    fun deleteCook(cook: Cook){
         uiScope.launch {
             withContext(Dispatchers.IO){
-                FirebaseDatabase.deleteCook(cook, userId)
+                FirebaseDatabase.deleteCook(cook)
             }
         }
     }

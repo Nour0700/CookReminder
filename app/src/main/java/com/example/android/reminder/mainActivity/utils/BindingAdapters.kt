@@ -1,8 +1,8 @@
-package com.example.android.reminder.utils
+package com.example.android.reminder.mainActivity.utils
 
 import android.widget.TextView
 import androidx.databinding.BindingAdapter
-import com.example.android.reminder.network.Cook
+import com.example.android.reminder.mainActivity.network.Cook
 import com.example.android.reminder.R
 
 

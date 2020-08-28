@@ -1,4 +1,4 @@
-package com.example.android.reminder.about
+package com.example.android.reminder.mainActivity.about
 
 import android.os.Bundle
 import android.text.method.LinkMovementMethod

@@ -1,4 +1,4 @@
-package com.example.android.reminder.addFragment
+package com.example.android.reminder.mainActivity.addFragment
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,13 +9,10 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.NavController
 import com.example.android.reminder.R
 import com.example.android.reminder.databinding.FragmentAddBinding
-import com.example.android.reminder.mainFragment.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 val TAG = "Nour"
@@ -36,8 +33,6 @@ class AddFragment : DialogFragment() {
         val viewModelFactory = AddViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddViewModel::class.java)
         binding.viewModel = viewModel
-        binding.userId = AddFragmentArgs.fromBundle(requireArguments()).userId
-
 
 
         //========================================= Observers

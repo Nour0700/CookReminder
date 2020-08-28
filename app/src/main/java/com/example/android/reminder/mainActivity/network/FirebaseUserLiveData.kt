@@ -1,4 +1,4 @@
-package com.example.android.reminder.network
+package com.example.android.reminder.mainActivity.network
 
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.FirebaseAuth

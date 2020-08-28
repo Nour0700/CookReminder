@@ -1,4 +1,4 @@
-package com.example.android.reminder.utils
+package com.example.android.reminder.mainActivity.utils
 
 import android.annotation.SuppressLint
 import java.text.SimpleDateFormat

@@ -7,15 +7,15 @@
 
         <variable
             name="cook"
-            type="com.example.android.reminder.network.Cook" />
+            type="com.example.android.reminder.mainActivity.network.Cook" />
 
         <variable
             name="delete_item_listener"
-            type="com.example.android.reminder.mainFragment.DeleteItemListener" />
+            type="com.example.android.reminder.mainActivity.mainFragment.DeleteItemListener" />
 
         <variable
             name="update_cook_last_cook_date_listener"
-            type="com.example.android.reminder.mainFragment.UpdateCookLastCookDateListener" />
+            type="com.example.android.reminder.mainActivity.mainFragment.UpdateCookLastCookDateListener" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

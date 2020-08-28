@@ -5,62 +5,49 @@
     >
 
     <data>
-
         <variable
             name="viewModel"
-            type="com.example.android.reminder.addFragment.AddViewModel" />
-
-        <variable
-            name="userId"
-            type="String" />
+            type="com.example.android.reminder.mainActivity.addFragment.AddViewModel" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primaryLightColor">
+        android:background="@color/primaryLightColor"
+        android:orientation="vertical">
 
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/add_new_cook_text"
+            android:textAlignment="center"
+            android:textColor="@color/primaryTextColor"
+            android:textSize="30sp" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/add_text_field"
             android:layout_width="match_parent"
             android:layout_height="50sp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="30dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/add_the_new_cook_editText_hint"
-            android:text="@={viewModel.cookName}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.436" />
+            android:text="@={viewModel.cookName}" />
 
         <Button
             android:id="@+id/add_button"
-            android:layout_width="432dp"
+            android:layout_width="match_parent"
             android:layout_height="56dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="50dp"
             android:background="@color/primaryDarkColor"
-            android:onClick="@{() -> viewModel.onAddButtonClicked(userId)}"
+            android:onClick="@{() -> viewModel.onAddButtonClicked()}"
             android:text="@string/add_button_text"
-            android:textColor="@color/primaryTextColor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/add_text_field"
-            app:layout_constraintStart_toStartOf="@+id/add_text_field"
-            app:layout_constraintTop_toBottomOf="@+id/add_text_field"
-            app:layout_constraintVertical_bias="0.008" />
+            android:textColor="@color/primaryTextColor" />
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add_new_cook_text"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="30sp"
-            app:layout_constraintBottom_toTopOf="@+id/add_text_field"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 </layout>

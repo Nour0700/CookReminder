@@ -1,4 +1,4 @@
-package com.example.android.reminder.mainFragment
+package com.example.android.reminder.mainActivity.mainFragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.android.reminder.databinding.CookItemBinding
 import com.example.android.reminder.databinding.HeaderBinding
-import com.example.android.reminder.network.Cook
-import com.example.android.reminder.utils.createRangeOfTen
+import com.example.android.reminder.mainActivity.network.Cook
+import com.example.android.reminder.mainActivity.utils.createRangeOfTen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

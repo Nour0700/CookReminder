@@ -1,9 +1,10 @@
-package com.example.android.reminder.addFragment
+package com.example.android.reminder.mainActivity.addFragment
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.android.reminder.network.Cook
-import com.example.android.reminder.network.FirebaseDatabase
+import com.example.android.reminder.mainActivity.network.Cook
+import com.example.android.reminder.mainActivity.network.FirebaseDatabase
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
 
 class AddViewModelFactory(
@@ -62,26 +63,23 @@ class AddViewModel(application: Application): AndroidViewModel(application){
 
     //========================================= Functions
 
-    fun onAddButtonClicked(userId: String){
+    fun onAddButtonClicked(){
         uiScope.launch {
             val _cookName = cookName.value
-            if (_cookName != null) {
-                if(_cookName.isNotEmpty()){
-                    val cook = Cook(name = _cookName)
-                    addNewCook(cook, userId)
-                    hide()
-                }else{
-                    displayEmptyFieldMessage()
+            if (_cookName != null && _cookName.isNotEmpty()) {
+                val cook = Cook(name = _cookName)
+                CoroutineScope(Dispatchers.Main).launch {
+                    withContext(Dispatchers.IO){
+                        FirebaseDatabase.addNewCook(cook)
+                    }
                 }
+                hide()
+            }else{
+                displayEmptyFieldMessage()
             }
         }
     }
 
-    private suspend fun addNewCook(cook: Cook, userId: String) {
-        withContext(Dispatchers.IO){
-            FirebaseDatabase.addNewCook(cook,userId)
-        }
-    }
 
     //=========================================
 
