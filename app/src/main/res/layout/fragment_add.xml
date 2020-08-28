@@ -9,6 +9,10 @@
         <variable
             name="viewModel"
             type="com.example.android.reminder.addFragment.AddViewModel" />
+
+        <variable
+            name="userId"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -38,7 +42,7 @@
             android:layout_height="56dp"
             android:layout_marginTop="40dp"
             android:background="@color/primaryDarkColor"
-            android:onClick="@{() -> viewModel.onAddButtonClicked()}"
+            android:onClick="@{() -> viewModel.onAddButtonClicked(userId)}"
             android:text="@string/add_button_text"
             android:textColor="@color/primaryTextColor"
             app:layout_constraintBottom_toBottomOf="parent"

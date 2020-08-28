@@ -19,7 +19,9 @@
                 android:layout_height="match_parent"
                 app:defaultNavHost="true"
                 app:navGraph="@navigation/nav_graph" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/navView"
@@ -28,5 +30,7 @@
             android:layout_gravity="start"
             app:menu="@menu/navdrawer_menu"
             app:headerLayout="@layout/nav_header"/>
+
+
     </androidx.drawerlayout.widget.DrawerLayout>
 </layout>

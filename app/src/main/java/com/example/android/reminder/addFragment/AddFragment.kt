@@ -9,11 +9,13 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import com.example.android.reminder.R
 import com.example.android.reminder.databinding.FragmentAddBinding
+import com.example.android.reminder.mainFragment.MainViewModel
 import com.google.android.material.snackbar.Snackbar
 
 val TAG = "Nour"
@@ -22,7 +24,6 @@ class AddFragment : DialogFragment() {
 
     private lateinit var binding: FragmentAddBinding
     private lateinit var viewModel: AddViewModel
-    private lateinit var navController: NavController
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,6 +36,8 @@ class AddFragment : DialogFragment() {
         val viewModelFactory = AddViewModelFactory(application)
         viewModel = ViewModelProvider(this, viewModelFactory).get(AddViewModel::class.java)
         binding.viewModel = viewModel
+        binding.userId = AddFragmentArgs.fromBundle(requireArguments()).userId
+
 
 
         //========================================= Observers
@@ -72,6 +75,9 @@ class AddFragment : DialogFragment() {
                 Toast.makeText(requireContext(), "Unable to do changes", Toast.LENGTH_SHORT).show()
             }
         })
+
+
+
 
         binding.lifecycleOwner = this
         // Inflate the layout for this fragment

@@ -1,7 +1,10 @@
 package com.example.android.reminder.network
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.android.reminder.addFragment.TAG
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
@@ -17,31 +20,25 @@ data class Cook(
 class FirebaseDatabase{
     companion object{
 
-        private lateinit var userId: String
-        fun mySetUserId(id: String){
-            userId = id
-        }
+
         //=========================================
 
-        private val dbCooks = Firebase.database.getReference("cooks")
+        private val dbCooks = Firebase.database.getReference("users")
 
-        fun getInstance(): DatabaseReference{
-            return dbCooks
-        }
 
         private val _result = MutableLiveData<Exception?>()
         val result: LiveData<Exception?>
             get() = _result
-        
+
         private val _allCooks = MutableLiveData<MutableList<Cook>>()
         val allCooks: LiveData<MutableList<Cook>>
             get() = _allCooks
 
         //=========================================
 
-        fun addNewCook(cook: Cook){
-            cook.id = dbCooks.push().key
-            dbCooks.child(cook.id!!).setValue(cook)
+        fun addNewCook(cook: Cook,userId: String){
+            cook.id = dbCooks.child(userId).push().key
+            dbCooks.child(userId).child(cook.id!!).setValue(cook)
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         _result.value = null
@@ -53,8 +50,8 @@ class FirebaseDatabase{
 
         //=========================================
 
-        fun updateCook(cook: Cook){
-            dbCooks.child(cook.id!!).setValue(cook)
+        fun updateCook(cook: Cook, userId: String){
+            dbCooks.child(userId).child(cook.id!!).setValue(cook)
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         _result.value = null
@@ -62,12 +59,13 @@ class FirebaseDatabase{
                         _result.value = it.exception
                     }
                 }
+
         }
 
         //=========================================
 
-        fun deleteCook(cook: Cook){
-            dbCooks.child(cook.id!!).setValue(null)
+        fun deleteCook(cook: Cook, userId: String){
+            dbCooks.child(userId).child(cook.id!!).setValue(null)
                 .addOnCompleteListener{
                     if(it.isSuccessful){
                         _result.value = null
@@ -75,6 +73,7 @@ class FirebaseDatabase{
                         _result.value = it.exception
                     }
                 }
+
         }
 
         //=========================================
@@ -84,11 +83,12 @@ class FirebaseDatabase{
             override fun onChildAdded(snapshot: DataSnapshot, previousChildName: String?) {
                 val cook = snapshot.getValue(Cook::class.java)
                 cook?.id = snapshot.key
+                Log.i(TAG, "onChildAdded")
                 cook?.let {
                     val allCooks = _allCooks.value
                     if(allCooks != null){
                         allCooks.add(cook)
-                        _allCooks.value = allCooks
+                        _allCooks.value = allCooks!!
                     }else{
                         val newAllNetworkCooks = mutableListOf(cook)
                         _allCooks.value = newAllNetworkCooks
@@ -99,13 +99,15 @@ class FirebaseDatabase{
             override fun onChildChanged(snapshot: DataSnapshot, previousChildName: String?) {
                 val cook = snapshot.getValue(Cook::class.java)
                 cook?.id = snapshot.key
+                Log.i(TAG, "onChildChanged")
+
                 cook?.let {
                     val allCooks = _allCooks.value
                     if(allCooks != null){
                         val cookToBeChanged = allCooks.firstOrNull { it.id == cook.id }
                         val index = allCooks.indexOf(cookToBeChanged)
                         allCooks[index] = cook
-                        _allCooks.value = allCooks
+                        _allCooks.value = allCooks!!
                     }
                 }
             }
@@ -113,10 +115,12 @@ class FirebaseDatabase{
             override fun onChildRemoved(snapshot: DataSnapshot) {
                 val cook = snapshot.getValue(Cook::class.java)
                 cook?.id = snapshot.key
+                Log.i(TAG, "1")
+
                 cook?.let {
                     val allCooks = _allCooks.value
                     allCooks?.remove(cook)
-                    _allCooks.value = allCooks
+                    _allCooks.value = allCooks!!
                 }
             }
             //=========================================
@@ -127,8 +131,8 @@ class FirebaseDatabase{
             }
         }
 
-        fun getRealtimeUpdate(){
-            dbCooks.addChildEventListener(childEventListenerAllData)
+        fun getRealtimeUpdate(userId: String){
+            dbCooks.child(userId).addChildEventListener(childEventListenerAllData)
         }
 
         //=========================================

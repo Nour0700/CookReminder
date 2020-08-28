@@ -62,13 +62,13 @@ class AddViewModel(application: Application): AndroidViewModel(application){
 
     //========================================= Functions
 
-    fun onAddButtonClicked(){
+    fun onAddButtonClicked(userId: String){
         uiScope.launch {
             val _cookName = cookName.value
             if (_cookName != null) {
                 if(_cookName.isNotEmpty()){
                     val cook = Cook(name = _cookName)
-                    insert(cook)
+                    addNewCook(cook, userId)
                     hide()
                 }else{
                     displayEmptyFieldMessage()
@@ -77,9 +77,9 @@ class AddViewModel(application: Application): AndroidViewModel(application){
         }
     }
 
-    private suspend fun insert(cook: Cook) {
+    private suspend fun addNewCook(cook: Cook, userId: String) {
         withContext(Dispatchers.IO){
-            FirebaseDatabase.addNewCook(cook)
+            FirebaseDatabase.addNewCook(cook,userId)
         }
     }
 

@@ -1,39 +1,31 @@
 package com.example.android.reminder.mainFragment
 
 import android.app.Application
+import android.util.Log
 import androidx.lifecycle.*
 import com.example.android.reminder.network.Cook
 import com.example.android.reminder.network.FirebaseDatabase
-
+import com.example.android.reminder.network.FirebaseUserLiveData
+import androidx.lifecycle.map
+import com.example.android.reminder.addFragment.TAG
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.*
 
 
 val DESCING_ORDER = 1
 val ASCENDING_ORDER = 2
 
-class MainViewModelFactory(private val application: Application) : ViewModelProvider.Factory {
-    @Suppress("unchecked_cast")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
-            return MainViewModel(application) as T
-        }
-        throw IllegalArgumentException("Unknown ViewModel class")
-    }
-}
 
 
-class MainViewModel(application: Application): AndroidViewModel(application){
-
+class MainViewModel: ViewModel(){
 
     val cooks = FirebaseDatabase.allCooks
     val result = FirebaseDatabase.result
-
+    lateinit var userId : String
 
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
     var cookListOrder: Int = ASCENDING_ORDER
-
-
     // this value is updated each time the data changes
     val noDataTextVisible = Transformations.map(cooks){
         it.isEmpty()
@@ -55,7 +47,6 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     //=========================================
 
     init{
-        FirebaseDatabase.getRealtimeUpdate()
         _shouldNavigateToAddFragment.value =false
     }
 
@@ -65,7 +56,7 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         uiScope.launch {
             withContext(Dispatchers.IO){
                 cook.lastTimeCooked = System.currentTimeMillis()
-                FirebaseDatabase.updateCook(cook)
+                FirebaseDatabase.updateCook(cook, userId)
             }
         }
     }
@@ -73,8 +64,18 @@ class MainViewModel(application: Application): AndroidViewModel(application){
     fun deleteCook(cook:Cook){
         uiScope.launch {
             withContext(Dispatchers.IO){
-                FirebaseDatabase.deleteCook(cook)
+                FirebaseDatabase.deleteCook(cook, userId)
             }
+        }
+    }
+
+    //=========================================
+
+    val authenticationState = FirebaseUserLiveData().map { user ->
+        if (user != null) {
+            AuthenticationState.AUTHENTICATED
+        } else {
+            AuthenticationState.UNAUTHENTICATED
         }
     }
 
@@ -85,4 +86,9 @@ class MainViewModel(application: Application): AndroidViewModel(application){
         viewModelJob.cancel()
         FirebaseDatabase.clearListeners()
     }
+
+}
+
+enum class AuthenticationState {
+    AUTHENTICATED, UNAUTHENTICATED, INVALID_AUTHENTICATION
 }

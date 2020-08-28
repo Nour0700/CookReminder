@@ -83,5 +83,6 @@
             app:layout_constraintTop_toTopOf="@+id/cook_now_img"
             app:layout_constraintVertical_bias="0.0"
             app:srcCompat="@drawable/ic_trash" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
