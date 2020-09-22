@@ -7,7 +7,7 @@ The second one is using the Firebase Real-time Database to store data online and
 
 ## Screenshots 
 
-<img src="1 (1).png"> 
-<img src="1 (3).png"> 
-<img src="1 (4).png"> 
-<img src="2 (3).png"> 
+<img src="screenshots/1 (1).png" width=500> 
+<img src="screenshots/1 (3).png" width=500> 
+<img src="screenshots/1 (4).png" width=500> 
+<img src="screenshots/2 (3).png" width=500> 
