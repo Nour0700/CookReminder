@@ -15,6 +15,9 @@
     <string name="no_data_text">There is not cook! \n Add some cooks</string>
     <string name="recently_cooked_text">Recently cooked</string>
     <string name="cooked_before_text">Cooked before 4 days</string>
+    <string name="sort_in_ascending_order_text">Sort in ascending order</string>
+    <string name="sorti_in_descending_order">Sort in descending order</string>
+    <string name="add_new_cook_text">Please add new cook</string>
     <!--    this will fromat string data from the layout file when used-->
 <!--    <string name="quote_format">\"%s\"</string>-->
 </resources>

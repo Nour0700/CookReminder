@@ -5,8 +5,10 @@ import androidx.lifecycle.*
 import com.example.android.reminder.database.Cook
 import com.example.android.reminder.database.CookDatabaseDao
 import kotlinx.coroutines.*
-import java.util.*
 
+
+val DESCING_ORDER = 1
+val ASCENDING_ORDER = 2
 
 class MainViewModelFactory(private val dataSource: CookDatabaseDao, private val application: Application) : ViewModelProvider.Factory {
     @Suppress("unchecked_cast")
@@ -21,20 +23,16 @@ class MainViewModelFactory(private val dataSource: CookDatabaseDao, private val 
 
 class MainViewModel(val databaseDao: CookDatabaseDao, application: Application): AndroidViewModel(application){
 
+
     val cooks = databaseDao.getAllCooks()
     private var viewModelJob = Job()
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModelJob)
+    var cookListOrder: Int = ASCENDING_ORDER
+
 
     // this value is updated each time the data changes
     val noDataTextVisible = Transformations.map(cooks){
         it.isEmpty()
-    }
-
-    //=========================================
-    // this code will be used to change the date when we are going to display it
-    val _date = MutableLiveData<Date>()
-    val date:LiveData<String> = Transformations.map(_date){
-        it.toString()
     }
 
     //=========================================
@@ -49,7 +47,6 @@ class MainViewModel(val databaseDao: CookDatabaseDao, application: Application):
     fun endNavigationToAddFragment(){
         _shouldNavigateToAddFragment.value = false
     }
-
 
     //=========================================
 
