@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.databinding.DataBindingUtil
+import com.example.android.reminder.MainActivity
 import com.example.android.reminder.R
 import com.example.android.reminder.databinding.FragmentAboutBinding
 
@@ -18,5 +19,10 @@ class AboutFragment : Fragment() {
 
         binding.description.movementMethod = LinkMovementMethod.getInstance()
         return binding.root
+    }
+    override fun onResume() {
+        super.onResume()
+        // Set title bar
+        (activity as MainActivity?)?.setActionBarTitle("About")
     }
 }

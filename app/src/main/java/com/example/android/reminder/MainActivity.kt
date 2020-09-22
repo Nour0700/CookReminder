@@ -1,13 +1,12 @@
 package com.example.android.reminder
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.example.android.reminder.databinding.ActivityMainBinding
 
@@ -44,5 +43,8 @@ class MainActivity : AppCompatActivity() {
     //========================================= setup DrawerLayout and Up button
     override fun onSupportNavigateUp(): Boolean {
         return NavigationUI.navigateUp(navController, drawerLayout)
+    }
+    fun setActionBarTitle(title: String?) {
+        supportActionBar?.title = title
     }
 }

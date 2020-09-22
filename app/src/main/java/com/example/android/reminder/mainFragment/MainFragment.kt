@@ -2,12 +2,13 @@ package com.example.android.reminder.mainFragment
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
+import com.example.android.reminder.MainActivity
 import com.example.android.reminder.R
 import com.example.android.reminder.addFragment.AddFragment
 import com.example.android.reminder.database.CookDatabase
@@ -37,21 +38,23 @@ class MainFragment : Fragment() {
 
         // passing viewLifecycleOwner to be aware of the liveCycle of the fragment and not
         // notify this observer when the data changes and the fragment is not on screen.
-        viewModel.shouldNavigateToAddFragment.observe(viewLifecycleOwner, Observer<Boolean> { shouldNavigate ->
-            if (shouldNavigate) {
-                //findNavController().navigate(
-                //    MainFragmentDirections.actionMainFragmentToAddFragment()
-                //)
-                AddFragment().show(childFragmentManager, "")
-                viewModel.endNavigationToAddFragment()
-            }
-        })
+        viewModel.shouldNavigateToAddFragment.observe(
+            viewLifecycleOwner,
+            Observer<Boolean> { shouldNavigate ->
+                if (shouldNavigate) {
+                    //findNavController().navigate(
+                    //    MainFragmentDirections.actionMainFragmentToAddFragment()
+                    //)
+                    AddFragment().show(childFragmentManager, "")
+                    viewModel.endNavigationToAddFragment()
+                }
+            })
 
         // to display the no data text
         viewModel.noDataTextVisible.observe(viewLifecycleOwner, Observer {
-            if (it){
+            if (it) {
                 binding.noDataText.visibility = View.VISIBLE
-            }else{
+            } else {
                 binding.noDataText.visibility = View.GONE
             }
         })
@@ -84,6 +87,9 @@ class MainFragment : Fragment() {
                 adapter.addHeaderAndSubmitList(it, viewModel.cookListOrder)
             }
         })
+
+        activity?.actionBar?.title= "Cook remainder"
+
         return binding.root
     }
     //========================================= for menu navigation
@@ -105,6 +111,12 @@ class MainFragment : Fragment() {
             else ->  return NavigationUI.onNavDestinationSelected(item, findNavController())
                     ||super.onOptionsItemSelected(item)
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        // Set title bar
+        (activity as MainActivity?)?.setActionBarTitle("Cook Reminder")
     }
 }
 

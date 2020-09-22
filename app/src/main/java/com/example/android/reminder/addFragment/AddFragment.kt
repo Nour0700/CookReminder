@@ -13,6 +13,7 @@ import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
+import com.example.android.reminder.MainActivity
 import com.example.android.reminder.R
 import com.example.android.reminder.database.CookDatabase
 import com.example.android.reminder.databinding.FragmentAddBinding
